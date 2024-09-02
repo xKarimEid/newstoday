@@ -2,3 +2,4 @@ content.txt
 dev.ipynb
 myvenv/
 .env
+__pycache__/
