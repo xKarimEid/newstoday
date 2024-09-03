@@ -3,3 +3,4 @@ dev.ipynb
 myvenv/
 .env
 __pycache__/
+*.db
