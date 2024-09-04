@@ -1,5 +1,6 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 class VGScraper:
     def __init__(self):
@@ -17,19 +18,24 @@ class VGScraper:
         """Get all article urls from the main page"""
     
         bs = self._get_html()
-        url_data = []
+        article_data = []
         for item in bs.find_all('a', {'itemprop': 'url'}):
             data = {}
             if item['href']:
                # Store the article url
-               data['article_url'] = item['href']
+               data['url'] = item['href']
                # Store what newspaper this is
                data['newspaper'] = 'vg'
                # Store the article header
                data['header'] = item.h2.text.replace('\n', '')
-               url_data.append(data)
+               # Add datetime
+               dt = datetime.now()
+               dt = dt.strftime('%Y-%m-%d %H:%M:%S')
+               data['event_datetime'] = dt
+               # Append for later insertion
+               article_data.append(data)
 
-        return url_data
+        return article_data
     
     def get_article_from_url(self, article_url):
         """Get the article text from the article url"""

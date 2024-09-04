@@ -17,9 +17,10 @@ class ArticlesWrapper:
             cursor = conn.cursor()
             cursor.execute('''
                 CREATE TABLE IF NOT EXISTS articles
-                (article_id INTEGER PRIMARY KEY, 
+                (article_id INTEGER PRIMARY KEY,
+                event_datetime datetime NOT NULL, 
                 header TEXT UNIQUE,
-                newspaper text, 
+                newspaper text NOT NULL, 
                 url text UNIQUE,
                 article text NOT NULL)
                 ''')
@@ -31,8 +32,19 @@ class ArticlesWrapper:
             cursor = conn.cursor()
             cursor.execute("""DROP TABLE IF EXISTS articles""")
 
-    def insert_article(self, header, newspaper, url, article):
-        """Inserts article into articles table"""
+    def insert_article(self, data):
+        """Inserts an article into the 'articles' table.
+        
+        Args:
+            data (Dict[str, str]): A dictionary containing the following keys:
+                - 'header' (str): The article header.
+                - 'newspaper' (str): The newspaper name.
+                - 'article_url' (str): The URL of the article.
+                - 'article' (str): The full article text.
+        
+        Prints:
+            sqlite3.DatabaseError: If a database error occurs during the insertion.
+        """
 
         try:
 
@@ -40,12 +52,18 @@ class ArticlesWrapper:
                 # Create a cursor object using the context manager
                 cursor = conn.cursor()
                 cursor.execute("""INSERT OR IGNORE INTO articles 
-                            (header, newspaper, url, article)
+                               
+                            (event_datetime, header, newspaper, 
+                            url, article)
+                               
                             VALUES 
-                            (?, ?, ?, ?)""",
-                            (header, newspaper, url, article))
+                               
+                            (:event_datetime, :header, :newspaper,
+                            :url, :article)""",
+                            (data))
+            print(f"Success inserting article: {data['header']}")
+
         except Exception as e:
-    
             print(f"The following Error occured: {e}")
 
     def get_articles_rows(self, query):
