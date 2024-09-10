@@ -1,31 +1,25 @@
-Hi, this is my private repo for learning how to webscrape!
+Hi, this is my private repo for learning about RAG!
 
-Web scrape articles of vg.no
-Take one article and summarize it using gemini
+The setup for this repo:
+    1) Web scrape articles from vg.no
+    2) store scraped articles in a db
+    3) Create embedding vectors for the stored articles and store them in db
+
+UI workflow
+
+User asks question about articles
+user question embeddings are generated
+a vector search is done to see if any document matches the question
+The closest n documents are pulled out and used to generate the respone
 
 
-General thought:
-
-Scrape newspages for articles, store them in sqlite
+Example:
 
 User asks:
 
 Did vg write any articles regarding the police today?
 
-LLM
-
-Here is the table of articles stores in SQLlite, write a query that filters the rows that will be fed into a LLM which will get the information the user is asking about. 
-
-Get query from LLM
-
-Perform query on database
-
-for each row in the query ask the LLM if it contains information relevant to what the user is asking. 
-
-Components:
-
-chatcomponent (frontend)
-sqlite
-LLM (API)
-orchestrator (templates)
-Scraper
+user question is embedded
+vector search is done
+Closest articles are found
+answered based on closest articles
