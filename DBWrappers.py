@@ -111,19 +111,21 @@ class EmbeddingWrapper:
             cursor = conn.cursor()
             cursor.execute(query)
 
-    def insert_embedding(self, header, article, embeddings):
+    def insert_row(self, data):
         """Inserts embedding into table"""
 
         query = """
                 INSERT OR IGNORE INTO embeddings 
-                (header, article, embedding) VALUES (?, ?, ?)
+                (header, article, embedding) VALUES (:header, :article, :embedding)
                 """
     
         with sqlite3.connect(self.db) as conn:
             cursor = conn.cursor()
-            cursor.execute(query, (header, article, pickle.dumps(embeddings)))
+            cursor.execute(query, (data['header'], 
+                                   data['article'], 
+                                   pickle.dumps(data['embedding'])))
     
-    def get_embedding(self, query):
+    def get_rows(self, query):
         with sqlite3.connect(self.db) as conn:
             cursor = conn.cursor()
             cursor.execute(query)
@@ -131,8 +133,8 @@ class EmbeddingWrapper:
         
         result = []
         for row in rows:
-            print(row[0], row[1])
+            #print(row[0], row[1])
             embed = pickle.loads(row[2])
-            result.append((row, embed))
+            result.append((row[0], row[1], embed))
         
         return result
