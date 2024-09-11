@@ -21,7 +21,8 @@ class VGScraper:
         article_data = []
         for item in bs.find_all('a', {'itemprop': 'url'}):
             data = {}
-            if item['href']:
+            # Loop through each tag and find the article url
+            if 'href' in item.attrs:
                # Store the article url
                data['url'] = item['href']
                # Store what newspaper this is
