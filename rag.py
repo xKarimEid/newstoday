@@ -11,12 +11,13 @@ import numpy as np
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-genai.configure(api_key=os.environ["apikey"])
+
 
 class RAG:
     def __init__(self):
         self.embedding_table = EmbeddingWrapper()
+        load_dotenv()
+        genai.configure(api_key=os.environ["apikey"])
         
 
     def get_cosine_distances(self, user_embedding):
@@ -40,7 +41,6 @@ class RAG:
     def get_top_k(self, user_prompt, k):
         user_embedding = self.embed_prompt(user_prompt)
         cosine_distances = self.get_cosine_distances(user_embedding)
-        print(cosine_distances)
         cosine_distances.sort(key=lambda k: -k[0])
 
         return [article for embed, article in cosine_distances[:k]]
