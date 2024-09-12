@@ -2,6 +2,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from datetime import datetime
 
+
 class VGScraper:
     def __init__(self):
         self.url = 'https://www.vg.no'
@@ -48,7 +49,3 @@ class VGScraper:
             paraghs.append(p.get_text())
         
         return ' '.join(paraghs)
-
-
-if __name__ == '__main__':
-    s = VGScraper()

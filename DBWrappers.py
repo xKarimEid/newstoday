@@ -125,16 +125,26 @@ class EmbeddingWrapper:
                                    data['article'], 
                                    pickle.dumps(data['embedding'])))
     
-    def get_rows(self, query):
+    def get_articles_embeddings(self):
+        query = """SELECT article, embedding FROM embeddings"""
         with sqlite3.connect(self.db) as conn:
             cursor = conn.cursor()
             cursor.execute(query)
             rows = cursor.fetchall()
         
+        # Deserialize embedding results
         result = []
         for row in rows:
-            #print(row[0], row[1])
-            embed = pickle.loads(row[2])
-            result.append((row[0], row[1], embed))
+            embed = pickle.loads(row[1])
+            result.append((row[0], embed))
         
         return result
+    
+    def _calculate_distances(self, user_embedding):
+        pass
+
+    def get_top_k(self, user_embedding):
+        res = self._get_articles_embeddings()
+        self._calculate_distances(user_embedding)
+        # sort
+        pass
