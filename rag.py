@@ -3,7 +3,6 @@ RAG class queries the embedding table to find the closest
 articles to the user prompt
 """
 
-
 from DBWrappers import EmbeddingWrapper
 from sklearn.metrics.pairwise import cosine_similarity
 import google.generativeai as genai
@@ -18,7 +17,7 @@ class RAG:
         self.embedding_table = EmbeddingWrapper()
         load_dotenv()
         genai.configure(api_key=os.environ["apikey"])
-        
+        self.model = genai.GenerativeModel("gemini-1.5-flash")
 
     def get_cosine_distances(self, user_embedding):
         # Get all articles and corresponding embeddings
@@ -44,3 +43,19 @@ class RAG:
         cosine_distances.sort(key=lambda k: -k[0])
 
         return [article for embed, article in cosine_distances[:k]]
+    
+    def search_news(self, user, k=3):
+        result = self.get_top_k(user, k)
+        
+        head_prompt = f"""
+              Du er en hjelpsom assistent som er flink på å gjøre gode sammendrag av nyheter. 
+              Du blir stilt dette spørsmålet: {user}. 
+              Du skal svare på det spørsmålet ved hjelp av denne informasjonen: {result}.
+              Begynn svaret slik: Basert på informasjonen jeg har, eller en lignende start.
+              Vis informasjonen ikke svarer på spørsmålet så kan du si det nærmeste jeg fant er dette:
+              """
+        
+        
+        response = self.model.generate_content(head_prompt)
+        return response.text
+
