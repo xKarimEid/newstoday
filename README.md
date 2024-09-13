@@ -1,25 +1,17 @@
-Hi, this is my private repo for learning about RAG!
+This is a very simple repo for educational purposes on how to use RAG. 
 
-The setup for this repo:
-    1) Web scrape articles from vg.no
-    2) store scraped articles in a db
-    3) Create embedding vectors for the stored articles and store them in db
+# News Article Scraper and Embedding System
 
-UI workflow
-
-User asks question about articles
-user question embeddings are generated
-a vector search is done to see if any document matches the question
-The closest n documents are pulled out and used to generate the respone
+This repository contains a collection of scripts for scraping news articles, managing embeddings, and generating responses based on user queries. The system integrates web scraping with a generative AI model to handle and query news articles effectively.
 
 
-Example:
 
-User asks:
+## `main.py`
+This script orchestrates the process of web scraping, embedding article content, and storing it in the database. It uses `VGScraper` to fetch article data and `EmbeddingWrapper` to store embeddings.
 
-Did vg write any articles regarding the police today?
+## Usage
+1. Ensure you have a `.env` file with your API key for a gemini model.
+2. Run the main.py script to scrape articles, generate embeddings, and insert them into the database.
 
-user question is embedded
-vector search is done
-Closest articles are found
-answered based on closest articles
+```bash
+python main.py
