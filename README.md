@@ -19,13 +19,12 @@ Use playground.ipynb to play and interact with the libraries
 
 2. **Run the `main.py` Script**
    - This script will scrape articles, generate embeddings, and insert them into the database.
-   - Execute the following command in your terminal:
      ```bash
      python main.py
      ```
 
 3. **Interact with the Model**
-   - Open `playground.ipynb` in Jupyter Notebook or your preferred IDE.
+   - Open `playground.ipynb` 
    - Use the notebook to query the model about today's news and interact with the generated content.
 
 
