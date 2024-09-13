@@ -27,4 +27,4 @@ Use playground.ipynb to play and interact with the libraries
    - Open `playground.ipynb` 
    - Use the notebook to query the model about today's news and interact with the generated content.
 
-
+   [Open playground.ipynb](playground.ipynb)
